@@ -7,7 +7,7 @@ spec:
   pytorchReplicaSpecs:
     Master:
       replicas: 1
-      restartPolicy: Never
+      restartPolicy: OnFailure
       template:
         metadata:
           annotations:
@@ -16,7 +16,16 @@ spec:
           containers:
             - name: pytorch
               image: mavencodev/pytorchjob:1.0
-              args:
-                - --epochs
-                - --seed
-                - --log-interval
+              args: ["--backend", "gloo"]
+    Worker:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "false"
+        spec:
+          containers:
+            - name: pytorch
+              image: mavencodev/pytorchjob:1.0
+              args: ["--backend", "gloo"]  
