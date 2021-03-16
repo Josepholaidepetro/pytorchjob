@@ -19,14 +19,14 @@ class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         # 28x28x1 image 
-        self.conv1 = nn.Conv2d(1, 56, 3, 1) 
-        # 26x26x56 
-        self.conv2 = nn.Conv2d(56, 112, 3, 1)
-        # 24x24x112 -----> pooling -----> 12x12x112 
+        self.conv1 = nn.Conv2d(1, 16, 3, 1) 
+        # 26x26x16 
+        self.conv2 = nn.Conv2d(16, 32, 3, 1)
+        # 24x24x32 -----> pooling -----> 12x12x32 
         self.dropout1 = nn.Dropout2d(0.25)
         self.dropout2 = nn.Dropout2d(0.5)
-        self.fc1 = nn.Linear(16128, 1028)
-        self.fc2 = nn.Linear(1028, 10)
+        self.fc1 = nn.Linear(4608, 128)
+        self.fc2 = nn.Linear(128, 10)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -102,7 +102,7 @@ def main():
     parser.add_argument(
         "--epochs",
         type=int,
-        default=5,
+        default=3,
         metavar="N",
         help="Number of epochs to train",
     )
@@ -183,7 +183,7 @@ def main():
 
     # See: https://pytorch.org/docs/stable/optim.html#torch.optim.Adadelta
     optimizer = optim.Adadelta(model.parameters(), lr=1)
-    scheduler = StepLR(optimizer, step_size=1, gamma=0.5)
+    scheduler = StepLR(optimizer, step_size=1, gamma=0.8)
 
     for epoch in range(1, args.epochs + 1):
         train(args, model, device, train_loader, optimizer, epoch)
