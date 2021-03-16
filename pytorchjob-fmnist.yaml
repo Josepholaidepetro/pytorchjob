@@ -2,6 +2,7 @@ apiVersion: "kubeflow.org/v1"
 kind: "PyTorchJob"
 metadata:
   name: "pytorchjob-fmnist"
+  namespace: admin
 spec:
   pytorchReplicaSpecs:
     Master:
