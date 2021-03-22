@@ -4,6 +4,8 @@ ADD mnist.py /opt
 WORKDIR /opt
 
 RUN chgrp -R 0 /opt \
-  && chmod -R g+rwX /opt
+  && chmod -R g+rwX /opt \
+  && chgrp -R 0 /katib \
+  && chmod -R g+rwX /katib
 
-ENTRYPOINT ["python", "/opt/mnist.py"]
+ENTRYPOINT ["python3", "/opt/mnist.py"]
